@@ -1,0 +1,21 @@
+services:
+  web:
+    image: glitchtip/glitchtip
+    ports:
+      - "8000:8000"
+    env_file: .env
+    volumes:
+      - uploads:/code/uploads
+  worker:
+    image: glitchtip/glitchtip
+    command: ./bin/run-celery-with-beat.sh
+    env_file: .env
+    volumes:
+      - uploads:/code/uploads
+  migrate:
+    image: glitchtip/glitchtip
+    command: ./bin/run-migrate.sh
+    env_file: .env
+
+volumes:
+  uploads:
